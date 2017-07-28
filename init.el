@@ -18,6 +18,9 @@
 ;; Theme
 (load-theme 'material t)
 
+;; Split window on startup
+(split-window-horizontally)
+
 ;; Add line numbers
 (global-linum-mode t)
 
@@ -50,13 +53,14 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
+    (vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(auto-dim-other-buffers-face ((t (:background "gray10"))))
+ '(mode-line-buffer-id ((t (:foreground "green2" :weight bold)))))
 
 ;; Bracket Highlighting
 (show-paren-mode 1)
@@ -102,3 +106,16 @@
 
 ;; git-gutter
 (global-git-gutter-mode +1)
+
+;; Duplicate line
+(global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y")
+
+;; google-this
+(google-this-mode 1)
+
+;; Dockerfile-mode
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+;; Varnish
+((add-to-list 'auto-mode-alist '("*.vcl" . vcl-mode))
