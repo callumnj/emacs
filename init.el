@@ -91,6 +91,9 @@
 ;; Projectile
 (projectile-mode 1)
 
+;; Projectile-rails
+(add-hook 'projectile-mode-hook 'projectile-rails-on)
+
 ;; enh-ruby-mode
 (add-to-list 'auto-mode-alist
              '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
@@ -119,3 +122,22 @@
 
 ;; Varnish
 ((add-to-list 'auto-mode-alist '("*.vcl" . vcl-mode))
+
+;; Robe
+(require 'robe)
+(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'robe-mode-hook 'ac-robe-setup)
+
+;; Kill buffers
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+;; mutli-term
+(require 'multi-term)
+(setq multi-term-program "/bin/bash")
+(setq multi-term-program-switches "--login")
+
+;; Display time
+(display-time-mode 1)
