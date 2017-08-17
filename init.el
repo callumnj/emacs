@@ -38,6 +38,7 @@
 ;; Whitespace
 (hc-toggle-highlight-trailing-whitespace)
 
+
 ;; Font size
 (set-face-attribute 'default nil :height 100)
 
@@ -110,9 +111,6 @@
 ;; git-gutter
 (global-git-gutter-mode +1)
 
-;; Duplicate line
-(global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y")
-
 ;; google-this
 (google-this-mode 1)
 
@@ -121,7 +119,7 @@
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 ;; Varnish
-((add-to-list 'auto-mode-alist '("*.vcl" . vcl-mode))
+(add-to-list 'auto-mode-alist '("*.vcl" . vcl-mode))
 
 ;; Robe
 (require 'robe)
@@ -141,3 +139,34 @@
 
 ;; Display time
 (display-time-mode 1)
+
+;; exec-path-from-shell
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+;; org mode
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+;; Weather (wttrin)
+(setq wttrin-default-cities '("London" "England"))
+
+;; Desktop save
+(desktop-save-mode 1)
+
+;; Custom keys minor mode
+(defvar my-keys-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    ;; Duplicate line
+    (define-key map (kbd "C-c C-d") "\C-a\C- \C-n\M-w\C-y")
+    map)
+  "my-keys-minor-mode keymap.")
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  :init-value t
+  :lighter " my-keys")
+
+(my-keys-minor-mode 1)
