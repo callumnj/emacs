@@ -18,6 +18,7 @@
 ;; Theme
 (load-theme 'material t)
 
+
 ;; Split window on startup
 (split-window-horizontally)
 
@@ -36,7 +37,7 @@
 (global-set-key (kbd "C-h") 'set-rectangular-region-anchor)
 
 ;; Whitespace
-(hc-toggle-highlight-trailing-whitespace)
+(hc-toggle-highlight-trailing-whitespace 1)
 
 
 ;; Font size
@@ -52,15 +53,20 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
  '(package-selected-packages
    (quote
-    (vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
+    (railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#263238" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "nil" :family "Hack"))))
  '(auto-dim-other-buffers-face ((t (:background "gray10"))))
+ '(hc-trailing-whitespace ((t (:background "gray57"))))
  '(mode-line-buffer-id ((t (:foreground "green2" :weight bold)))))
 
 ;; Bracket Highlighting
@@ -170,3 +176,7 @@
   :lighter " my-keys")
 
 (my-keys-minor-mode 1)
+
+;; auto-complete
+(ac-config-default)
+(global-auto-complete-mode t)
