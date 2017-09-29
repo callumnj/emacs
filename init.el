@@ -8,7 +8,8 @@
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
 
-  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/")))
+;;  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/")))
+  (add-to-list 'package-archives '("melpa-stable" . "https://www.mirrorservice.org/sites/melpa.org/packages/")))
 
 ;; Marmalade
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -18,12 +19,12 @@
 ;; Theme
 (load-theme 'material t)
 
-
 ;; Split window on startup
 (split-window-horizontally)
 
 ;; Add line numbers
-(global-linum-mode t)
+(require 'linum-relative)
+  ;;(global-linum-mode t)
 
 ;; Disable scroll bar
 (scroll-bar-mode -1)
@@ -39,7 +40,6 @@
 ;; Whitespace
 (hc-toggle-highlight-trailing-whitespace 1)
 
-
 ;; Font size
 (set-face-attribute 'default nil :height 100)
 
@@ -53,12 +53,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
  '(custom-safe-themes
    (quote
     ("cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
+ '(line-number-mode 1)
  '(package-selected-packages
    (quote
-    (railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
+    (git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -72,12 +74,8 @@
 ;; Bracket Highlighting
 (show-paren-mode 1)
 
-;; Code Completion
-
-
 ;; Rubocop
 (require 'rubocop)
-
 
 ;; Rspec Mode
 (require 'rspec-mode)
@@ -114,8 +112,8 @@
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
 
-;; git-gutter
-(global-git-gutter-mode +1)
+;; git-gutter-fringe
+(require 'git-gutter-fringe)
 
 ;; google-this
 (google-this-mode 1)
@@ -179,4 +177,8 @@
 
 ;; auto-complete
 (ac-config-default)
-(global-auto-complete-mode t)
+(global-auto-complete-mode 1)
+
+;; Windmove mode
+(windmove-default-keybindings)
+
