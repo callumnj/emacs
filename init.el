@@ -18,12 +18,8 @@
 ;; Theme
 (load-theme 'material t)
 
-;; Split window on startup
-(split-window-horizontally)
-
 ;; Add line numbers
 (require 'linum-relative)
-(linum-relative-mode 1)
 
 ;; Disable scroll bar
 (scroll-bar-mode -1)
@@ -60,7 +56,7 @@
  '(line-number-mode 1)
  '(package-selected-packages
    (quote
-    (nyan-mode smooth-scrolling nord-theme hackernews doom-themes org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
+    (ace-window angular-mode nyan-mode smooth-scrolling nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -75,7 +71,7 @@
 (show-paren-mode 1)
 
 ;; Rubocop
-(require 'rubocop)
+;(require 'rubocop)
 
 ;; Rspec Mode
 (require 'rspec-mode)
@@ -116,20 +112,17 @@
 (require 'git-gutter-fringe)
 (global-git-gutter-mode 1)
 
-;; google-this
-(google-this-mode 1)
-
 ;; Dockerfile-mode
-(require 'dockerfile-mode)
+;(require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 ;; Varnish
 (add-to-list 'auto-mode-alist '("*.vcl" . vcl-mode))
 
 ;; Robe
-(require 'robe)
-(add-hook 'ruby-mode-hook 'robe-mode)
-(add-hook 'robe-mode-hook 'ac-robe-setup)
+;(require 'robe)
+;(add-hook 'ruby-mode-hook 'robe-mode)
+;(add-hook 'robe-mode-hook 'ac-robe-setup)
 
 ;; Kill buffers
 (defun kill-other-buffers ()
@@ -176,10 +169,9 @@
 
 (my-keys-minor-mode 1)
 
-;; auto-complete
-(ac-config-default)
-(global-auto-complete-mode 1)
-(auto-complete-mode 1)
+;; Company
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; Windmove mode
 (windmove-default-keybindings)
@@ -195,8 +187,8 @@
 (electric-pair-mode 1)
 
 ;; twittering-mode
-(require 'twittering-mode)
-(setq twittering-icon-mode t)
+;(require 'twittering-mode)
+;(setq twittering-icon-mode t)
 
 ;; rename current file
 (defun rename-file-and-buffer ()
@@ -209,18 +201,24 @@
         (cond
          ((vc-backend filename) (vc-rename-file filename new-name))
          (t
-          (rename-file filename new-name t)
+          (rename-file filename new-nameeval0- t)
           (set-visited-file-name new-name t t)))))))
 
 (global-set-key (kbd "C-c r")  'rename-file-and-buffer)
 
 ;; Multiple cursors
 (require 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/esyndit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; Nyan-mode
-(require 'nyan-mode)
-(nyan-mode 1)
+;;(require 'nyan-mode)
+;;(nyan-mode 1)
+
+;; ace-window
+(require 'ace-window)
+(global-set-key (kbd "M-p") 'ace-window)
+(require 'shell)
+(define-key shell-mode-map (kbd "M-p") 'ace-window)
