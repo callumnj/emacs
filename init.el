@@ -20,6 +20,7 @@
 
 ;; Add line numbers
 (require 'linum-relative)
+(linum-relative-global-mode t)
 
 ;; Disable scroll bar
 (scroll-bar-mode -1)
@@ -56,7 +57,7 @@
  '(line-number-mode 1)
  '(package-selected-packages
    (quote
-    (ace-window angular-mode nyan-mode smooth-scrolling nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
+    (image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -219,6 +220,6 @@
 
 ;; ace-window
 (require 'ace-window)
-(global-set-key (kbd "M-p") 'ace-window)
+(global-set-key (kbd "M-[") 'ace-window)
 (require 'shell)
-(define-key shell-mode-map (kbd "M-p") 'ace-window)
+(define-key shell-mode-map (kbd "M-[") 'ace-window)
