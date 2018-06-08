@@ -18,6 +18,9 @@
 ;; Theme
 (load-theme 'material t)
 
+;; Toggle toolbar
+(tool-bar-mode -1)
+
 ;; Add line numbers
 (require 'linum-relative)
 (linum-relative-global-mode t)
@@ -28,10 +31,6 @@
 ;; Tabs
 (setq-default indent-tabs-mode nil)
 (setq tab-width 2)
-
-;; multiline-cursor
-(require 'multiple-cursors)
-(global-set-key (kbd "C-h") 'set-rectangular-region-anchor)
 
 ;; Whitespace
 (hc-toggle-highlight-trailing-whitespace 1)
@@ -52,12 +51,12 @@
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
+    ("9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
  '(electric-pair-mode t)
  '(line-number-mode 1)
  '(package-selected-packages
    (quote
-    (image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
+    (smartparens image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -99,6 +98,7 @@
 ;; enh-ruby-mode
 (add-to-list 'auto-mode-alist
              '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+(setq enh-ruby-add-encoding-comment-on-save nil)
 
 ;; Backups and Autosave file location
 (setq backup-directory-alist
@@ -209,6 +209,8 @@
 
 ;; Multiple cursors
 (require 'multiple-cursors)
+(global-set-key (kbd "C-c m c") 'set-rectangular-region-anchor)
+
 (global-set-key (kbd "C-S-c C-S-c") 'mc/esyndit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -223,3 +225,12 @@
 (global-set-key (kbd "M-[") 'ace-window)
 (require 'shell)
 (define-key shell-mode-map (kbd "M-[") 'ace-window)
+
+;; Smartparens
+(require 'smartparens-config)
+(require 'smartparens-ruby)
+(smartparens-global-mode)
+(show-smartparens-global-mode t)
+(sp-with-modes '(rhtml-mode)
+  (sp-local-pair "<" ">")
+  (sp-local-pair "<%" "%>"))
