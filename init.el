@@ -1,4 +1,9 @@
+(server-start)
+
 (require 'package)
+
+;; Add downloaded packages to load path
+(add-to-list 'load-path "~/.emacs.d/my_packages/*")
 
 ;; Melpa
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -15,48 +20,55 @@
 
 (package-initialize)
 
-;; Theme
-(load-theme 'material t)
-
-;; Toggle toolbar
-(tool-bar-mode -1)
-
-;; Add line numbers
-(require 'linum-relative)
-(linum-relative-global-mode t)
-
-;; Disable scroll bar
-(scroll-bar-mode -1)
-
-;; Tabs
-(setq-default indent-tabs-mode nil)
-(setq tab-width 2)
-
-;; Whitespace
-(hc-toggle-highlight-trailing-whitespace 1)
-
-;; Font size
-(set-face-attribute 'default nil :height 100)
-
-;; Ivy
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "(%d/%d) ")
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#ffffff" "#f36c60" "#8bc34a" "#fff59d" "#4dd0e1" "#b39ddb" "#81d4fa" "#263238"))
  '(column-number-mode t)
+ '(csv-separators (quote ("," ";")))
  '(custom-safe-themes
    (quote
-    ("9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
+    ("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
  '(electric-pair-mode t)
+ '(fci-rule-color "#37474f")
+ '(global-whitespace-mode nil)
+ '(hl-sexp-background-color "#1c1f26")
+ '(js-indent-level 2)
  '(line-number-mode 1)
+ '(neo-window-fixed-size nil)
  '(package-selected-packages
    (quote
-    (smartparens image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode google-this git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))))
+    (nv-delete-back flymd markdown-preview-eww websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+ '(send-mail-function (quote mailclient-send-it))
+ '(size-indication-mode t)
+ '(smooth-scrolling-mode t)
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#f36c60")
+     (40 . "#ff9800")
+     (60 . "#fff59d")
+     (80 . "#8bc34a")
+     (100 . "#81d4fa")
+     (120 . "#4dd0e1")
+     (140 . "#b39ddb")
+     (160 . "#f36c60")
+     (180 . "#ff9800")
+     (200 . "#fff59d")
+     (220 . "#8bc34a")
+     (240 . "#81d4fa")
+     (260 . "#4dd0e1")
+     (280 . "#b39ddb")
+     (300 . "#f36c60")
+     (320 . "#ff9800")
+     (340 . "#fff59d")
+     (360 . "#8bc34a"))))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -69,6 +81,41 @@
 
 ;; Bracket Highlighting
 (show-paren-mode 1)
+
+;; Theme
+(load-theme 'material t)
+
+;; Midnight mode to clean buffers
+(require 'midnight)
+
+;; Toggle toolbar
+(tool-bar-mode -1)
+
+;; Add line numbers
+;(require 'linum-relative)
+;(linum-relative-global-mode t)
+
+;; Disable scroll bar
+(scroll-bar-mode -1)
+
+;; Tabs
+(setq-default indent-tabs-mode nil)
+(setq tab-width 2)
+
+;; Whitespace
+(hc-toggle-highlight-trailing-whitespace t)
+
+;; Font size
+(set-face-attribute 'default nil :height 120)
+
+;; delete-selection-mode
+(delete-selection-mode 1)
+
+;; Ivy
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "(%d/%d) ")
+(setq ivy-current-match t)
 
 ;; Rubocop
 ;(require 'rubocop)
@@ -97,7 +144,7 @@
 
 ;; enh-ruby-mode
 (add-to-list 'auto-mode-alist
-             '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+  '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
 (setq enh-ruby-add-encoding-comment-on-save nil)
 
 ;; Backups and Autosave file location
@@ -107,23 +154,33 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; Magit
-(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-c g") 'magit-status)
 
 ;; git-gutter-fringe
 (require 'git-gutter-fringe)
 (global-git-gutter-mode 1)
 
-;; Dockerfile-mode
+;; Dockerfile-moden
 ;(require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 ;; Varnish
 (add-to-list 'auto-mode-alist '("*.vcl" . vcl-mode))
 
-;; Robe
-;(require 'robe)
-;(add-hook 'ruby-mode-hook 'robe-mode)
-;(add-hook 'robe-mode-hook 'ac-robe-setup)
+;; ruby-tools
+(require 'ruby-tools)
+(add-hook 'after-init-hook 'ruby-tools-mode)
+;; Need to manualy require ruby-tools as it isn't required in enh-ruby-mode
+;;(ruby-tools-mode t)
+
+(define-globalized-minor-mode my-global-ruby-tools-mode ruby-tools-mode
+  (lambda () (ruby-tools-mode 1)))
+
+(my-global-ruby-tools-mode 1)
+;; C-‘ converts the thing into a single-quoted string
+;; C-“ converts the thing into a double-quoted string
+;; C-: converts the thing into a symbol
+;; C-; clears a string
 
 ;; Kill buffers
 (defun kill-other-buffers ()
@@ -144,16 +201,10 @@
   (exec-path-from-shell-initialize))
 
 ;; org mode
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-;; Weather (wttrin)
-(setq wttrin-default-cities '("London" "England"))
-
-;; Desktop save
-(desktop-save-mode 1)
+;;(require 'org)
+;;(define-key global-map "\C-cl" 'org-store-link)
+;;(define-key global-map "\C-ca" 'org-agenda)
+;;(setq org-log-done t)
 
 ;; Custom keys minor mode
 (defvar my-keys-minor-mode-map
@@ -171,8 +222,11 @@
 (my-keys-minor-mode 1)
 
 ;; Company
+;; Does the autocomplete
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0.2)
 
 ;; Windmove mode
 (windmove-default-keybindings)
@@ -191,7 +245,6 @@
 ;(require 'twittering-mode)
 ;(setq twittering-icon-mode t)
 
-;; rename current file
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
   (interactive)
@@ -216,15 +269,17 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-;; Nyan-mode
-;;(require 'nyan-mode)
-;;(nyan-mode 1)
-
 ;; ace-window
 (require 'ace-window)
 (global-set-key (kbd "M-[") 'ace-window)
 (require 'shell)
 (define-key shell-mode-map (kbd "M-[") 'ace-window)
+
+;; Resize windows
+(global-set-key (kbd "<M-up>") 'shrink-window)
+(global-set-key (kbd "<M-down>") 'enlarge-window)
+(global-set-key (kbd "<M-left>") 'shrink-window-horizontally)
+(global-set-key (kbd "<M-right>") 'enlarge-window-horizontally)
 
 ;; Smartparens
 (require 'smartparens-config)
@@ -234,3 +289,61 @@
 (sp-with-modes '(rhtml-mode)
   (sp-local-pair "<" ">")
   (sp-local-pair "<%" "%>"))
+
+;; flx-ido (projectile fuzzy search)
+(require 'flx-ido)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
+
+;; Truncate shell output
+(add-hook 'comint-output-filter-functions 'comint-truncate-buffer)
+
+;; Auto revert buffers
+(global-auto-revert-mode 1)
+
+;; Save even without making changes to the file
+(defun save-buffer-always ()
+  (interactive)
+  (set-buffer-modified-p t)
+  (save-buffer))
+(global-set-key (kbd "C-x C-s") 'save-buffer-always)
+
+;; Set pager to cat
+(setenv "PAGER" "cat")
+
+;; Neotree
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+;; Every time when the neotree window is opened, let it find current file and jump to node
+(setq neo-smart-open t)
+;; When running ‘projectile-switch-project’ (C-c p p), ‘neotree’ will change root automatically.
+(setq projectile-switch-project-action 'neotree-projectile-action)
+(global-set-key (kbd "C-c s") 'neotree-show)
+(global-set-key (kbd "C-c y") 'neotree-copy-filepath-to-yank-ring)
+
+;;NeoTree can be opened (toggled) at projectile project root as follows:
+(defun neotree-project-dir ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (projectile-project-root))
+        (file-name (buffer-file-name)))
+    (neotree-toggle)
+    (if project-dir
+        (if (neo-global--window-exists-p)
+            (progn
+              (neotree-dir project-dir)
+              (neotree-find file-name)))
+      (message "Could not find git project root."))))
+
+;; find-file-in-project
+;; Use fd
+(setq ffip-use-rust-fd t)
+
+;; expand-region (select within quotes, brackets etc)
+(global-set-key (kbd "C-.") 'er/expand-region)
+
+(put 'upcase-region 'disabled nil)
