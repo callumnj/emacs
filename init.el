@@ -43,7 +43,7 @@
  '(neo-window-fixed-size nil)
  '(package-selected-packages
    (quote
-    (nv-delete-back flymd markdown-preview-eww websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+    (keyfreq minitest nv-delete-back flymd markdown-preview-eww websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
  '(send-mail-function (quote mailclient-send-it))
  '(size-indication-mode t)
  '(smooth-scrolling-mode t)
@@ -106,7 +106,7 @@
 (hc-toggle-highlight-trailing-whitespace t)
 
 ;; Font size
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 140)
 
 ;; delete-selection-mode
 (delete-selection-mode 1)
@@ -347,3 +347,18 @@
 (global-set-key (kbd "C-.") 'er/expand-region)
 
 (put 'upcase-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Keyfreq
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+
+;; Disable mouse
+(require 'disable-mouse)
+(global-disable-mouse-mode)
+
+;; Better page scrolling
+(setq scroll-preserve-screen-position t)
+(global-set-key (kbd "M-p") 'scroll-down-command)
+(global-set-key (kbd "M-n") 'scroll-up-command)
