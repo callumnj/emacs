@@ -34,19 +34,39 @@
  '(custom-safe-themes
    (quote
     ("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
+ '(disable-mouse-global-mode t nil (disable-mouse))
  '(electric-pair-mode t)
+ '(fast-but-imprecise-scrolling t)
  '(fci-rule-color "#37474f")
+ '(global-spotify-remote-mode nil)
  '(global-whitespace-mode nil)
  '(hl-sexp-background-color "#1c1f26")
+ '(initial-scratch-message "Hello Callum!!!
+
+")
  '(js-indent-level 2)
+ '(keyfreq-mode t)
  '(line-number-mode 1)
+ '(line-spacing 0.2)
+ '(maximum-scroll-margin 0.01)
+ '(mode-icons-mode nil)
  '(neo-window-fixed-size nil)
  '(package-selected-packages
    (quote
-    (keyfreq minitest nv-delete-back flymd markdown-preview-eww websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window angular-mode nord-theme hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative railscasts-reloaded-theme sparql-mode vcl-mode dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+    (doom-themes anzu md4rd keyfreq minitest nv-delete-back flymd markdown-preview-eww websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window angular-mode hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative sparql-mode vcl-mode dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+ '(scroll-bar-mode nil)
+ '(scroll-preserve-screen-position t)
  '(send-mail-function (quote mailclient-send-it))
  '(size-indication-mode t)
  '(smooth-scrolling-mode t)
+ '(tetris-x-colors
+   [[229 192 123]
+    [97 175 239]
+    [209 154 102]
+    [224 108 117]
+    [152 195 121]
+    [198 120 221]
+    [86 182 194]])
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -82,8 +102,14 @@
 ;; Bracket Highlighting
 (show-paren-mode 1)
 
-;; Theme
-(load-theme 'material t)
+;; Themes
+;;(load-theme 'material t)
+;; For DOOM themes run "M-x all-the-icons-install-fonts" first
+(require 'doom-themes)
+(load-theme 'doom-nord t)
+(doom-themes-neotree-config)
+(doom-themes-org-config)
+(doom-themes-visual-bell-config)
 
 ;; Midnight mode to clean buffers
 (require 'midnight)
@@ -322,8 +348,6 @@
 (setq neo-smart-open t)
 ;; When running ‘projectile-switch-project’ (C-c p p), ‘neotree’ will change root automatically.
 (setq projectile-switch-project-action 'neotree-projectile-action)
-(global-set-key (kbd "C-c s") 'neotree-show)
-(global-set-key (kbd "C-c y") 'neotree-copy-filepath-to-yank-ring)
 
 ;;NeoTree can be opened (toggled) at projectile project root as follows:
 (defun neotree-project-dir ()
@@ -358,7 +382,49 @@
 (require 'disable-mouse)
 (global-disable-mouse-mode)
 
-;; Better page scrolling
-(setq scroll-preserve-screen-position t)
-(global-set-key (kbd "M-p") 'scroll-down-command)
-(global-set-key (kbd "M-n") 'scroll-up-command)
+;; Scroll buffer by quarters
+(defun window-quarter-height ()
+  (max 1 (/ (1- (window-height (selected-window))) 4)))
+
+(defun scroll-up-quarter ()
+  (interactive)
+  (scroll-up (window-quarter-height)))
+
+(defun scroll-down-quarter ()
+  (interactive)
+  (scroll-down (window-quarter-height)))
+
+(global-set-key (kbd "M-n") 'scroll-up-quarter)
+(global-set-key (kbd "M-p") 'scroll-down-quarter)
+
+;; Open init.el shortcut
+(defun er-find-user-init-file ()
+  "Edit the `user-init-file', in another window."
+  (interactive)
+  (find-file-other-window user-init-file))
+(global-set-key (kbd "C-c i") 'er-find-user-init-file)
+
+;; Copy file path to killring
+(defun my-put-file-name-on-clipboard ()
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
+(global-set-key (kbd "C-x p") 'my-put-file-name-on-clipboard)
+
+;; Show search result count and increment
+(global-anzu-mode +1)
+
+;; insert "binding.pry"
+(defun insert-binding-pry ()
+  "Insert 'binding.pry' at cursor point"
+  (interactive)
+  (insert "binding.pry"))
+(global-set-key (kbd "C-c b") 'insert-binding-pry)
+
