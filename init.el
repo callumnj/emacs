@@ -33,10 +33,11 @@
  '(csv-separators (quote ("," ";")))
  '(custom-safe-themes
    (quote
-    ("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
  '(disable-mouse-global-mode t nil (disable-mouse))
+ '(doom-modeline-mode t)
  '(electric-pair-mode t)
- '(fast-but-imprecise-scrolling t)
+ '(fast-but-imprecise-scrolling nil)
  '(fci-rule-color "#37474f")
  '(global-spotify-remote-mode nil)
  '(global-whitespace-mode nil)
@@ -45,7 +46,6 @@
 
 ")
  '(js-indent-level 2)
- '(keyfreq-mode t)
  '(line-number-mode 1)
  '(line-spacing 0.2)
  '(maximum-scroll-margin 0.01)
@@ -53,7 +53,7 @@
  '(neo-window-fixed-size nil)
  '(package-selected-packages
    (quote
-    (doom-themes anzu md4rd keyfreq minitest nv-delete-back flymd markdown-preview-eww websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window angular-mode hackernews org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative sparql-mode vcl-mode dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors material-theme highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+    (all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
  '(scroll-bar-mode nil)
  '(scroll-preserve-screen-position t)
  '(send-mail-function (quote mailclient-send-it))
@@ -97,6 +97,7 @@
  '(default ((t (:inherit nil :stipple nil :background "#263238" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "nil" :family "Hack"))))
  '(auto-dim-other-buffers-face ((t (:background "gray10"))))
  '(hc-trailing-whitespace ((t (:background "gray57"))))
+ '(info-xref ((t (:inherit link))))
  '(mode-line-buffer-id ((t (:foreground "green2" :weight bold)))))
 
 ;; Bracket Highlighting
@@ -109,17 +110,15 @@
 (load-theme 'doom-nord t)
 (doom-themes-neotree-config)
 (doom-themes-org-config)
-(doom-themes-visual-bell-config)
+
+(require 'doom-modeline)
+(doom-modeline-mode 1)
 
 ;; Midnight mode to clean buffers
 (require 'midnight)
 
 ;; Toggle toolbar
 (tool-bar-mode -1)
-
-;; Add line numbers
-;(require 'linum-relative)
-;(linum-relative-global-mode t)
 
 ;; Disable scroll bar
 (scroll-bar-mode -1)
@@ -143,9 +142,6 @@
 (setq ivy-count-format "(%d/%d) ")
 (setq ivy-current-match t)
 
-;; Rubocop
-;(require 'rubocop)
-
 ;; Rspec Mode
 (require 'rspec-mode)
 
@@ -164,6 +160,7 @@
 
 ;; Projectile
 (projectile-mode 1)
+(setq projectile-enable-caching t)
 
 ;; Projectile-rails
 (add-hook 'projectile-mode-hook 'projectile-rails-on)
@@ -186,12 +183,9 @@
 (require 'git-gutter-fringe)
 (global-git-gutter-mode 1)
 
-;; Dockerfile-moden
+;; Dockerfile-mode
 ;(require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
-
-;; Varnish
-(add-to-list 'auto-mode-alist '("*.vcl" . vcl-mode))
 
 ;; ruby-tools
 (require 'ruby-tools)
@@ -281,7 +275,7 @@
         (cond
          ((vc-backend filename) (vc-rename-file filename new-name))
          (t
-          (rename-file filename new-nameeval0- t)
+          (rename-file filename new-name t)
           (set-visited-file-name new-name t t)))))))
 
 (global-set-key (kbd "C-c r")  'rename-file-and-buffer)
@@ -373,11 +367,6 @@
 (put 'upcase-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; Keyfreq
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
-
 ;; Disable mouse
 (require 'disable-mouse)
 (global-disable-mouse-mode)
@@ -394,6 +383,7 @@
   (interactive)
   (scroll-down (window-quarter-height)))
 
+'(scroll-preserve-screen-position t)
 (global-set-key (kbd "M-n") 'scroll-up-quarter)
 (global-set-key (kbd "M-p") 'scroll-down-quarter)
 
@@ -401,7 +391,7 @@
 (defun er-find-user-init-file ()
   "Edit the `user-init-file', in another window."
   (interactive)
-  (find-file-other-window user-init-file))
+  (find-file user-init-file))
 (global-set-key (kbd "C-c i") 'er-find-user-init-file)
 
 ;; Copy file path to killring
@@ -428,3 +418,13 @@
   (insert "binding.pry"))
 (global-set-key (kbd "C-c b") 'insert-binding-pry)
 
+(require 'iedit)
+(global-set-key (kbd "C-;") 'iedit-mode)
+(put 'downcase-region 'disabled nil)
+
+;; web-mode for erb files
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+
+;; Layouts
+(0blayout-mode 1)
+(0blayout-add-keybindings-with-prefix "C-c C-l")
