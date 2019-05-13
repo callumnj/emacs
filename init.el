@@ -53,7 +53,7 @@
  '(neo-window-fixed-size nil)
  '(package-selected-packages
    (quote
-    (all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags 0blayout ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+    (ido-vertical-mode yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
  '(scroll-bar-mode nil)
  '(scroll-preserve-screen-position t)
  '(send-mail-function (quote mailclient-send-it))
@@ -213,18 +213,9 @@
 (setq multi-term-program "/bin/bash")
 (setq multi-term-program-switches "--login")
 
-;; Display time
-(display-time-mode 1)
-
 ;; exec-path-from-shell
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
-;; org mode
-;;(require 'org)
-;;(define-key global-map "\C-cl" 'org-store-link)
-;;(define-key global-map "\C-ca" 'org-agenda)
-;;(setq org-log-done t)
 
 ;; Custom keys minor mode
 (defvar my-keys-minor-mode-map
@@ -318,6 +309,16 @@
 ;; disable ido faces to see flx highlights.
 (setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
+
+;; Ido buffer intuitive navigation
+(add-hook 'ido-setup-hook '(lambda ()
+                             (define-key ido-completion-map "\C-h" 'ido-delete-backward-updir)
+                             (define-key ido-completion-map "\C-n" 'ido-next-match)
+                             (define-key ido-completion-map "\C-f" 'ido-next-match)
+                             (define-key ido-completion-map "\C-p" 'ido-prev-match)
+                             (define-key ido-completion-map "\C-b" 'ido-prev-match)
+                             (define-key ido-completion-map " " 'ido-exit-minibuffer)
+                             ))
 
 ;; Truncate shell output
 (add-hook 'comint-output-filter-functions 'comint-truncate-buffer)
@@ -424,7 +425,3 @@
 
 ;; web-mode for erb files
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-
-;; Layouts
-(0blayout-mode 1)
-(0blayout-add-keybindings-with-prefix "C-c C-l")
