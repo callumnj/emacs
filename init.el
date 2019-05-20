@@ -3,7 +3,9 @@
 (require 'package)
 
 ;; Add downloaded packages to load path
-(add-to-list 'load-path "~/.emacs.d/my_packages/*")
+(add-to-list 'load-path "~/.emacs.d/my_packages/")
+(require 'highlight-chars)
+(require 'find-file-in-project)
 
 ;; Melpa
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -35,15 +37,16 @@
    (quote
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
  '(disable-mouse-global-mode t nil (disable-mouse))
+ '(display-time-mode t)
  '(doom-modeline-mode t)
  '(electric-pair-mode t)
  '(fast-but-imprecise-scrolling nil)
  '(fci-rule-color "#37474f")
- '(global-spotify-remote-mode nil)
+ '(flx-ido-mode t)
  '(global-whitespace-mode nil)
  '(hl-sexp-background-color "#1c1f26")
+ '(indent-tabs-mode nil)
  '(initial-scratch-message "Hello Callum!!!
-
 ")
  '(js-indent-level 2)
  '(line-number-mode 1)
@@ -53,7 +56,7 @@
  '(neo-window-fixed-size nil)
  '(package-selected-packages
    (quote
-    (ido-vertical-mode yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+    (yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
  '(scroll-bar-mode nil)
  '(scroll-preserve-screen-position t)
  '(send-mail-function (quote mailclient-send-it))
@@ -114,7 +117,7 @@
 (require 'doom-modeline)
 (doom-modeline-mode 1)
 
-;; Midnight mode to clean buffers
+;; Midnight mode to clean buffersp
 (require 'midnight)
 
 ;; Toggle toolbar
@@ -126,9 +129,6 @@
 ;; Tabs
 (setq-default indent-tabs-mode nil)
 (setq tab-width 2)
-
-;; Whitespace
-(hc-toggle-highlight-trailing-whitespace t)
 
 ;; Font size
 (set-face-attribute 'default nil :height 140)
@@ -176,9 +176,6 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;; Magit
-(global-set-key (kbd "C-c g") 'magit-status)
-
 ;; git-gutter-fringe
 (require 'git-gutter-fringe)
 (global-git-gutter-mode 1)
@@ -190,9 +187,8 @@
 ;; ruby-tools
 (require 'ruby-tools)
 (add-hook 'after-init-hook 'ruby-tools-mode)
-;; Need to manualy require ruby-tools as it isn't required in enh-ruby-mode
-;;(ruby-tools-mode t)
 
+;; Need to manualy require ruby-tools as it isn't required in enh-ruby-mode
 (define-globalized-minor-mode my-global-ruby-tools-mode ruby-tools-mode
   (lambda () (ruby-tools-mode 1)))
 
@@ -252,10 +248,6 @@
 ;; electric-pair-mode
 (electric-pair-mode 1)
 
-;; twittering-mode
-;(require 'twittering-mode)
-;(setq twittering-icon-mode t)
-
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
   (interactive)
@@ -309,6 +301,7 @@
 ;; disable ido faces to see flx highlights.
 (setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
+(setq completion-auto-help nil)
 
 ;; Ido buffer intuitive navigation
 (add-hook 'ido-setup-hook '(lambda ()
@@ -401,6 +394,7 @@
   (interactive)
   (let ((filename (if (equal major-mode 'dired-mode)
                       default-directory
+
                     (buffer-file-name))))
     (when filename
       (with-temp-buffer
@@ -425,3 +419,20 @@
 
 ;; web-mode for erb files
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+
+;; Remap backspace
+(global-set-key (kbd "C-?") 'help-command)
+(global-set-key (kbd "M-?") 'mark-paragraph)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+
+;; Whitespace highlighting
+(add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)
+;; Dont highlight whitespace in sh-mode
+(add-hook 'after-change-major-mode-hook
+                (lambda ()
+                  (when (eq major-mode 'shell-mode)
+                    (remove-hook 'font-lock-mode-hook
+                                 'hc-highlight-trailing-whitespace)
+                    (hc-dont-highlight-trailing-whitespace)))
+                'APPEND)
