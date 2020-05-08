@@ -2,7 +2,7 @@
 
 (require 'package)
 
-;; Add downloaded packages to load path
+; Add downloaded packages to load path
 (add-to-list 'load-path "~/.emacs.d/my_packages/")
 (require 'find-file-in-project)
 
@@ -21,6 +21,9 @@
 
 (package-initialize)
 
+;; SSH aliases
+(add-to-list 'load-path "~/.emacs.d/ssh.el")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -30,18 +33,24 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#ffffff" "#f36c60" "#8bc34a" "#fff59d" "#4dd0e1" "#b39ddb" "#81d4fa" "#263238"))
+ '(beacon-color "#e8b81a")
+ '(beacon-mode t)
  '(column-number-mode t)
  '(csv-separators (quote ("," ";")))
  '(custom-safe-themes
    (quote
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
+ '(default-input-method "japanese")
  '(disable-mouse-global-mode nil nil (disable-mouse))
+ '(display-time-default-load-average nil)
+ '(display-time-load-average-threshold 0.1)
  '(display-time-mode t)
+ '(doom-modeline-bar-width 3)
+ '(doom-modeline-buffer-encoding nil)
  '(doom-modeline-mode t)
  '(electric-pair-mode t)
  '(fast-but-imprecise-scrolling nil)
  '(fci-rule-color "#37474f")
- '(flx-ido-mode t)
  '(global-whitespace-mode nil)
  '(hl-sexp-background-color "#1c1f26")
  '(indent-tabs-mode nil)
@@ -53,15 +62,19 @@
  '(maximum-scroll-margin 0.01)
  '(mode-icons-mode nil)
  '(neo-window-fixed-size nil)
+ '(nyan-mode nil)
+ '(org-agenda-files
+   (quote
+    ("~/Code/notes/todo.org" "~/Apps/org-mode/todo.org")) t)
  '(package-selected-packages
    (quote
-    (yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode flx-ido uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars helm haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+    (helm fit-frame flx-ido which-key comint-better-defaults terraform-mode beacon csv yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
  '(persp-mode nil)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(scroll-preserve-screen-position t)
  '(send-mail-function (quote mailclient-send-it))
- '(size-indication-mode t)
+ '(size-indication-mode nil)
  '(smooth-scrolling-mode t)
  '(tetris-x-colors
    [[229 192 123]
@@ -71,6 +84,7 @@
     [152 195 121]
     [198 120 221]
     [86 182 194]])
+ '(tramp-default-user "callum.neve-jones")
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -92,7 +106,12 @@
      (320 . "#ff9800")
      (340 . "#fff59d")
      (360 . "#8bc34a"))))
- '(vc-annotate-very-old-color nil))
+ '(vc-annotate-very-old-color nil)
+ '(web-mode-attr-indent-offset 2)
+ '(web-mode-attr-value-indent-offset 2)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-markup-indent-offset 2)
+ '(which-key-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -100,6 +119,7 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#263238" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "nil" :family "Hack"))))
  '(auto-dim-other-buffers-face ((t (:background "gray10"))))
+ '(beacon-fallback-background ((t (:background "#e8b81a"))))
  '(info-xref ((t (:inherit link))))
  '(mode-line-buffer-id ((t (:foreground "green2" :weight bold)))))
 
@@ -117,7 +137,7 @@
 (require 'doom-modeline)
 (doom-modeline-mode 1)
 
-;; Midnight mode to clean buffersp
+;; Midnight mode to clean buffers
 (require 'midnight)
 
 ;; Toggle toolbar
@@ -131,7 +151,7 @@
 (setq tab-width 2)
 
 ;; Font size
-(set-face-attribute 'default nil :height 140)
+(set-face-attribute 'default nil :height 160)
 
 ;; delete-selection-mode
 (delete-selection-mode 1)
@@ -203,11 +223,6 @@
   "Kill all other buffers."
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
-;; mutli-term
-(require 'multi-term)
-(setq multi-term-program "/bin/bash")
-(setq multi-term-program-switches "--login")
 
 ;; exec-path-from-shell
 (when (memq window-system '(mac ns x))
@@ -363,7 +378,7 @@
 
 ;; Disable mouse
 (require 'disable-mouse)
-(global-disable-mouse-mode)
+;;(global-disable-mouse-mode)
 
 ;; Scroll buffer by quarters
 (defun window-quarter-height ()
@@ -428,3 +443,34 @@
 ;; Whitespace highlighting
 (setq-default show-trailing-whitespace t)
 (add-hook 'shell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+(customize-set-variable 'tramp-default-user "callum.neve-jones")
+
+;; Beacon (cursor finder)
+(beacon-mode 1)
+
+(defun load-directory (dir)
+  (let ((load-it (lambda (f)
+                   (load-file (concat (file-name-as-directory dir) f)))
+                 ))
+    (mapc load-it (directory-files dir nil "\\.el$"))))
+
+;; Flyspell - map flyspell correct to mouse-3 rather than mouse-2
+(eval-after-load "flyspell"
+  '(progn
+     (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
+     (define-key flyspell-mouse-map [mouse-3] #'undefined)))
+
+(global-set-key (kbd "C-x r") 'rename-buffer)
+
+(require 'bash-completion)
+(bash-completion-setup)
+
+(which-key-mode)
+
+(add-hook 'shell-mode-hook
+  (lambda ()
+    (face-remap-set-base 'comint-highlight-prompt :inherit nil)))
