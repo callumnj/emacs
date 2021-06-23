@@ -16,10 +16,11 @@
 
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-;; Marmalade
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-
 (package-initialize)
+
+(setq
+  package-selected-packages
+  '(helm fit-frame flx-ido which-key comint-better-defaults terraform-mode beacon csv yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))
 
 ;; SSH aliases
 (add-to-list 'load-path "~/.emacs.d/ssh.el")
@@ -36,10 +37,9 @@
  '(beacon-color "#e8b81a")
  '(beacon-mode t)
  '(column-number-mode t)
- '(csv-separators (quote ("," ";")))
+ '(csv-separators '("," ";"))
  '(custom-safe-themes
-   (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default)))
+   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default))
  '(default-input-method "japanese")
  '(disable-mouse-global-mode nil nil (disable-mouse))
  '(display-time-default-load-average nil)
@@ -54,26 +54,23 @@
  '(global-whitespace-mode nil)
  '(hl-sexp-background-color "#1c1f26")
  '(indent-tabs-mode nil)
- '(initial-scratch-message "Hello Callum!!!
-")
+ '(initial-scratch-message "Hello Callum!!!")
  '(js-indent-level 2)
  '(line-number-mode 1)
  '(line-spacing 0.2)
+ '(maximum-scroll-marggin 0.01)
  '(maximum-scroll-margin 0.01)
  '(mode-icons-mode nil)
  '(neo-window-fixed-size nil)
  '(nyan-mode nil)
- '(org-agenda-files
-   (quote
-    ("~/Code/notes/todo.org" "~/Apps/org-mode/todo.org")) t)
+ '(org-agenda-files '("~/Code/notes/todo.org" "~/Apps/org-mode/todo.org"))
  '(package-selected-packages
-   (quote
-    (helm fit-frame flx-ido which-key comint-better-defaults terraform-mode beacon csv yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete)))
+   '(expand-region projectile-rails helm fit-frame flx-ido which-key comint-better-defaults terraform-mode beacon csv yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))
  '(persp-mode nil)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(scroll-preserve-screen-position t)
- '(send-mail-function (quote mailclient-send-it))
+ '(send-mail-function 'mailclient-send-it)
  '(size-indication-mode nil)
  '(smooth-scrolling-mode t)
  '(tetris-x-colors
@@ -87,8 +84,7 @@
  '(tramp-default-user "callum.neve-jones")
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
-   (quote
-    ((20 . "#f36c60")
+   '((20 . "#f36c60")
      (40 . "#ff9800")
      (60 . "#fff59d")
      (80 . "#8bc34a")
@@ -105,7 +101,7 @@
      (300 . "#f36c60")
      (320 . "#ff9800")
      (340 . "#fff59d")
-     (360 . "#8bc34a"))))
+     (360 . "#8bc34a")))
  '(vc-annotate-very-old-color nil)
  '(web-mode-attr-indent-offset 2)
  '(web-mode-attr-value-indent-offset 2)
@@ -120,6 +116,7 @@
  '(default ((t (:inherit nil :stipple nil :background "#263238" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "nil" :family "Hack"))))
  '(auto-dim-other-buffers-face ((t (:background "gray10"))))
  '(beacon-fallback-background ((t (:background "#e8b81a"))))
+ '(cursor ((t (:background "DarkOrange1"))))
  '(info-xref ((t (:inherit link))))
  '(mode-line-buffer-id ((t (:foreground "green2" :weight bold)))))
 
@@ -292,6 +289,8 @@
 (global-set-key (kbd "M-[") 'ace-window)
 (require 'shell)
 (define-key shell-mode-map (kbd "M-[") 'ace-window)
+(setq-default explicit-shell-file-name "/usr/local/bin/bash")
+
 
 ;; Resize windows
 (global-set-key (kbd "<M-up>") 'shrink-window)
@@ -451,6 +450,7 @@
 
 ;; Beacon (cursor finder)
 (beacon-mode 1)
+(add-hook 'shell-mode-hook (lambda () (setq beacon-mode nil)))
 
 (defun load-directory (dir)
   (let ((load-it (lambda (f)
