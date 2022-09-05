@@ -18,9 +18,6 @@
 
 (package-initialize)
 
-(setq
-  package-selected-packages
-  '(helm fit-frame flx-ido which-key comint-better-defaults terraform-mode beacon csv yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))
 
 ;; SSH aliases
 (add-to-list 'load-path "~/.emacs.d/ssh.el")
@@ -37,9 +34,10 @@
  '(beacon-color "#e8b81a")
  '(beacon-mode t)
  '(column-number-mode t)
+ '(counsel-mode t)
  '(csv-separators '("," ";"))
  '(custom-safe-themes
-   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default))
+   '("4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "6c386d159853b0ee6695b45e64f598ed45bd67c47f671f69100817d7db64724d" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "9fe1540491fcf692b8c639a3abacd32b29233bc4cb834a12a0fd1e01cbd0a128" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cd0d4fdf764f757fd659ee2697239a62f38d15203000ced1ad8e43c978942c68" default))
  '(default-input-method "japanese")
  '(disable-mouse-global-mode nil nil (disable-mouse))
  '(display-time-default-load-average nil)
@@ -55,6 +53,7 @@
  '(hl-sexp-background-color "#1c1f26")
  '(indent-tabs-mode nil)
  '(initial-scratch-message "Hello Callum!!!")
+ '(ivy-mode t)
  '(js-indent-level 2)
  '(line-number-mode 1)
  '(line-spacing 0.2)
@@ -65,7 +64,7 @@
  '(nyan-mode nil)
  '(org-agenda-files '("~/Code/notes/todo.org" "~/Apps/org-mode/todo.org"))
  '(package-selected-packages
-   '(expand-region projectile-rails helm fit-frame flx-ido which-key comint-better-defaults terraform-mode beacon csv yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode auto-complete-exuberant-ctags ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode uuidgen csv-mode smartparens image+ rust-mode ace-window org-bullets git-gutter-fringe git-gutter-fringe+ linum-relative dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rspec-mode rubocop company counsel ivy ruby-block ruby-additional robe relative-line-numbers multiple-cursors highlight-chars haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))
+   '(org-roam add-node-modules-path prettier-js ivy-posframe lsp-mode slim-mode expand-region projectile-rails fit-frame flx-ido which-key comint-better-defaults terraform-mode beacon csv yaml-mode all-the-icons-dired web-mode iedit highlight-symbol bash-completion doom-modeline doom-themes anzu md4rd nv-delete-back flymd websocket flow-minor-mode ruby-tools smooth-scrolling find-file-in-project markdown-mode+ neotree exwm json-mode csv-mode smartparens image+ ace-window org-bullets git-gutter-fringe git-gutter-fringe+ dockerfile-mode git-gutter magit enh-ruby-mode projectile better-defaults auto-dim-other-buffers rubocop company counsel ivy ruby-block ruby-additional relative-line-numbers multiple-cursors highlight-chars haml-mode git-commit diff-hl cl-lib-highlight bundler auto-complete))
  '(persp-mode nil)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
@@ -127,7 +126,7 @@
 ;;(load-theme 'material t)
 ;; For DOOM themes run "M-x all-the-icons-install-fonts" first
 (require 'doom-themes)
-(load-theme 'doom-nord t)
+(load-theme 'doom-material t)
 (doom-themes-neotree-config)
 (doom-themes-org-config)
 
@@ -153,14 +152,28 @@
 ;; delete-selection-mode
 (delete-selection-mode 1)
 
+
+;; Helm
+;;(helm-mode 1)
+;;(global-set-key (kbd "C-x C-f") 'helm-find-files)
+;;(global-set-key (kbd "C-x b") 'helm-mini)
+;;(global-set-key (kbd "C-x k") 'helm-mini)
+
 ;; Ivy
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
 (setq ivy-current-match t)
+(global-set-key "\C-s" 'swiper)
+(define-key global-map [?\s-f] 'swiper)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(require 'ivy-posframe)
+(setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+(ivy-posframe-mode 1)
+(set-face-attribute 'ivy-posframe nil :foreground "white" :background "black")
 
-;; Rspec Mode
-(require 'rspec-mode)
+;; Counsel
+(counsel-mode 1)
 
 ;; Auto dim when lost focus
 (add-hook 'after-init-hook (lambda ()
@@ -317,6 +330,19 @@
 (setq ido-use-faces nil)
 (setq completion-auto-help nil)
 
+;; Allow spaces when using ido-find-file
+(add-hook 'ido-make-file-list-hook
+          (lambda ()
+            (define-key ido-file-dir-completion-map (kbd "SPC") 'self-insert-command)))
+
+;; Show ido results vertically, rather than horizontally
+(setq ido-decorations (quote ("\n-> " "" "\n " "\n ..." "[" "]" "
+  [No match]" " [Matched]" " [Not readable]" " [Too big]" "
+  [Confirm]")))
+(defun ido-disable-line-truncation () (set (make-local-variable 'truncate-lines) nil))
+(add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-truncation)
+
+
 ;; Ido buffer intuitive navigation
 (add-hook 'ido-setup-hook '(lambda ()
                              (define-key ido-completion-map "\C-h" 'ido-delete-backward-updir)
@@ -349,7 +375,7 @@
 ;; Every time when the neotree window is opened, let it find current file and jump to node
 (setq neo-smart-open t)
 ;; When running ‘projectile-switch-project’ (C-c p p), ‘neotree’ will change root automatically.
-(setq projectile-switch-project-action 'neotree-projectile-action)
+;;(setq projectile-switch-project-action 'neotree-projectile-action)
 
 ;;NeoTree can be opened (toggled) at projectile project root as follows:
 (defun neotree-project-dir ()
@@ -430,8 +456,10 @@
 (global-set-key (kbd "C-;") 'iedit-mode)
 (put 'downcase-region 'disabled nil)
 
-;; web-mode for erb files
+;; web-mode for erb and js files
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
+(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 
 ;; Remap backspace
 (global-set-key (kbd "C-?") 'help-command)
